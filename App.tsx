@@ -11,17 +11,17 @@ export default function App() {
     ClickRollDice();
   },[numDados])
 
-  // Función para tirar los dados
+  
   const ClickRollDice = () => {
-    setIsRolling(true); // Inicia la animación
+    setIsRolling(true);
     setTimeout(() => {
       let nuevosResultados: number[] = [];
       for (let i = 0; i < numDados; i++) {
         nuevosResultados.push(Math.floor(Math.random() * 6) + 1);
       }
       setResultados(nuevosResultados);
-      setIsRolling(false); // Finaliza la animación
-    }, 500); // Duración de la animación
+      setIsRolling(false);
+    }, 500); 
   };
 
   const ClickDecreaseDiceNumber=()=>{
@@ -30,7 +30,7 @@ export default function App() {
     }
   }
   const ClickIncreaseDiceNumber = () => {
-    if (numDados < 15) {
+    if (numDados < 16) {
       setNumDados(numDados +1);
     }
   }
@@ -49,7 +49,7 @@ export default function App() {
 
       <View style={styles.controls}>
         <Button title="Quitar Dado" disabled={numDados<=1} onPress={ClickDecreaseDiceNumber} />
-        <Button title="Agregar Dado" disabled={numDados >= 15} onPress={ClickIncreaseDiceNumber} />
+        <Button title="Agregar Dado" disabled={numDados >= 16} onPress={ClickIncreaseDiceNumber} />
       </View>
     </View>
   );
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     flexWrap:'wrap',
     marginBottom: 20,
+    justifyContent:'center'
   },
   resultado: {
     fontSize: 20,

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 interface DiceProps {
@@ -26,7 +26,7 @@ export const Dice: React.FC<DiceProps> = ({ value, isRolling }) => {
     // Función para generar los puntos según el valor del dado
     const renderDots = () => {
         // Map de posiciones de los puntos
-        const dotPositions = {
+        const dotPositions: { [key: number]: StyleProp<ViewStyle>[] } = {
             1: [styles.centerDot],
             2: [styles.topLeftDot, styles.bottomRightDot],
             3: [styles.topLeftDot, styles.centerDot, styles.bottomRightDot],
@@ -41,8 +41,7 @@ export const Dice: React.FC<DiceProps> = ({ value, isRolling }) => {
                 styles.bottomRightDot,
             ],
         };
-
-        return (dotPositions[value] || []).map((dotStyle, index) => (
+        return dotPositions[value]?.map((dotStyle: StyleProp<ViewStyle>, index: number) => (
             <View key={index} style={[styles.dot, dotStyle]} />
         ));
     };
