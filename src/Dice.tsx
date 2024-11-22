@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle, Text } from 'react-native';
 import Animated,{useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Dimensions } from 'react-native';
 
 interface DiceProps {
     value: number; // dice value
@@ -30,15 +31,16 @@ export const Dice: React.FC<DiceProps> = ({ value, isRolling, animationDuration 
             elevation: 8,
         },
         diceIcon: {
-            display: isRolling ? 'flex' : 'none',
+            display: isRolling ? 'flex' : 'flex',
+            backgroundColor:'transparent',
             color: '#00664d',
+            fontSize:60
         },
         diceContent: {
-            display: isRolling ? 'none' : 'flex',
+            display: isRolling ? 'none' : 'none',
             width: '100%',
             height: '100%',
             position: 'relative',
-            
         },
         dot: {
             width: 10,
@@ -128,7 +130,7 @@ export const Dice: React.FC<DiceProps> = ({ value, isRolling, animationDuration 
 
     return (
         <Animated.View style={[styles.dice, animatedStyle]}>
-            <Ionicons name='dice-sharp'  style={styles.diceIcon} size={40}/>
+            <Ionicons name='dice-sharp'  style={styles.diceIcon}/>
             <View style={styles.diceContent}>{renderDots()}</View>
         </Animated.View>
     );
