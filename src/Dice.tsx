@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import React, { useEffect, useState } from 'react';
+import { StyleProp, StyleSheet, View, ViewStyle, Text } from 'react-native';
+import Animated,{useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface DiceProps {
     value: number; // dice value
     isRolling: boolean; // flag dice is rolling?
+    animationDuration:number; //time animation
 }
 
-export const Dice: React.FC<DiceProps> = ({ value, isRolling }) => {
-    const animationDuration=750;
-    const rotation = useSharedValue(0);
-    const rotationX = useSharedValue(0);
-    const rotationY = useSharedValue(0);
+export const Dice: React.FC<DiceProps> = ({ value, isRolling, animationDuration }) => {
+    const rotation = useSharedValue<number>(0);
+    const rotationX = useSharedValue<number>(0);
+    const rotationY = useSharedValue<number>(0);
 
     const styles = StyleSheet.create({
         dice: {
@@ -28,10 +29,16 @@ export const Dice: React.FC<DiceProps> = ({ value, isRolling }) => {
             shadowRadius: 6,
             elevation: 8,
         },
+        diceIcon: {
+            display: isRolling ? 'flex' : 'none',
+            color: '#00664d',
+        },
         diceContent: {
+            display: isRolling ? 'none' : 'flex',
             width: '100%',
             height: '100%',
             position: 'relative',
+            
         },
         dot: {
             width: 10,
@@ -73,14 +80,18 @@ export const Dice: React.FC<DiceProps> = ({ value, isRolling }) => {
 
     useEffect(() => {
         if (isRolling) {
-            rotation.value = withTiming(360, { duration: animationDuration });
-            rotationX.value = withTiming(360, { duration: animationDuration });
-            rotationY.value = withTiming(360, { duration: animationDuration });
-        } else {
-            //return dice to original state
-            rotation.value = withTiming(0, { duration: animationDuration });
-            rotationX.value = withTiming(0, { duration: animationDuration });
-            rotationY.value = withTiming(0, { duration: animationDuration });
+            rotation.value = withTiming(360, { duration: animationDuration / 2 }, () => {
+                // La second halt time return state to 0
+                rotation.value = withTiming(0, { duration: animationDuration / 2 });
+            });
+
+            rotationX.value = withTiming(360, { duration: animationDuration / 2 }, () => {
+                rotationX.value = withTiming(0, { duration: animationDuration / 2 });
+            });
+
+            rotationY.value = withTiming(360, { duration: animationDuration / 2 }, () => {
+                rotationY.value = withTiming(0, { duration: animationDuration / 2 });
+            });
         }
     }, [isRolling]);
 
@@ -117,6 +128,7 @@ export const Dice: React.FC<DiceProps> = ({ value, isRolling }) => {
 
     return (
         <Animated.View style={[styles.dice, animatedStyle]}>
+            <Ionicons name='dice-sharp'  style={styles.diceIcon} size={40}/>
             <View style={styles.diceContent}>{renderDots()}</View>
         </Animated.View>
     );

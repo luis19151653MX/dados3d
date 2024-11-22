@@ -6,6 +6,7 @@ export default function App() {
   const [numDados, setNumDados] = useState(1);
   const [resultados, setResultados] = useState<number[]>([]);
   const [isRolling, setIsRolling] = useState(false);
+  const animationDuration = 1500;
 
   useEffect(() => {
     ClickRollDice();
@@ -13,15 +14,15 @@ export default function App() {
 
 
   const ClickRollDice = () => {
-    setIsRolling(true);
-    let nuevosResultados: number[] = [];
-    for (let i = 0; i < numDados; i++) {
-      nuevosResultados.push(Math.floor(Math.random() * 6) + 1);
-    }
-    setResultados(nuevosResultados);
-    setTimeout(() => {
-      setIsRolling(false);
-    }, 500);
+      setIsRolling(true);
+      let nuevosResultados: number[] = [];
+      for (let i = 0; i < numDados; i++) {
+        nuevosResultados.push(Math.floor(Math.random() * 6) + 1);
+      }
+      setResultados(nuevosResultados);
+      setTimeout(() => {
+        setIsRolling(false);
+      }, animationDuration);
   };
 
   const ClickDecreaseDiceNumber = () => {
@@ -41,7 +42,7 @@ export default function App() {
 
       <View style={styles.resultadosContainer}>
         {resultados.map((resultado, index) => (
-          <Dice key={index} value={resultado} isRolling={isRolling} />
+          <Dice key={index} value={resultado} isRolling={isRolling} animationDuration={animationDuration} />
         ))}
       </View>
 
