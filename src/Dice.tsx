@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle, Text } from 'react-native';
-import Animated,{useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Dimensions } from 'react-native';
 
 interface DiceProps {
     value: number; // dice value
     isRolling: boolean; // flag dice is rolling?
-    animationDuration:number; //time animation
+    animationDuration: number; //time animation
 }
 
 export const Dice: React.FC<DiceProps> = ({ value, isRolling, animationDuration }) => {
+    const { width: screenWidth } = Dimensions.get('window');
     const rotation = useSharedValue<number>(0);
     const rotationX = useSharedValue<number>(0);
     const rotationY = useSharedValue<number>(0);
-
+    const diceSize = screenWidth * 0.2;
+    const iconDiceSize = diceSize * 0.8;
     const styles = StyleSheet.create({
         dice: {
-            width: 60,
-            height: 60,
+            width: diceSize,
+            height: diceSize,
             backgroundColor: '#fff',
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
-            margin: 10,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: 0.3,
@@ -31,13 +32,14 @@ export const Dice: React.FC<DiceProps> = ({ value, isRolling, animationDuration 
             elevation: 8,
         },
         diceIcon: {
-            display: isRolling ? 'flex' : 'flex',
-            backgroundColor:'transparent',
+            display: isRolling ? 'flex' : 'none',
+            width: iconDiceSize,
+            aspectRatio: 1,
             color: '#00664d',
-            fontSize:60
+            fontSize: iconDiceSize
         },
         diceContent: {
-            display: isRolling ? 'none' : 'none',
+            display: isRolling ? 'none' : 'flex',
             width: '100%',
             height: '100%',
             position: 'relative',
@@ -130,7 +132,7 @@ export const Dice: React.FC<DiceProps> = ({ value, isRolling, animationDuration 
 
     return (
         <Animated.View style={[styles.dice, animatedStyle]}>
-            <Ionicons name='dice-sharp'  style={styles.diceIcon}/>
+            <Ionicons name='dice-sharp' style={styles.diceIcon} />
             <View style={styles.diceContent}>{renderDots()}</View>
         </Animated.View>
     );
