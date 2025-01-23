@@ -3,9 +3,13 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import { Dice } from '../components/common/Dice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DiceContext } from '../../context/DiceContext';
+import { useTranslation } from 'react-i18next';
+import { ConfigurationContext } from '../../context/ConfigurationContext';
 
 export default function ScreenRollDice() {
-    const { lastRollNumber, setLastRollNumber } = useContext(DiceContext);
+    const { t } = useTranslation();
+    const { lastRollNumber, setLastRollNumber, ClearAsyncStorage } = useContext(DiceContext);
+    const { language,SetLanguageWithStorage } = useContext(ConfigurationContext);
     const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
     const [isRolling, setIsRolling] = useState(false);
     const animationDuration = 1500;
@@ -38,30 +42,25 @@ export default function ScreenRollDice() {
         }
     }
 
-    const ClearStorage = async () => {
-        try {
-            await AsyncStorage.clear(); // Borra todo el almacenamiento de AsyncStorage
-            console.log('AsyncStorage ha sido limpiado');
-        } catch (error) {
-            console.error('Error al borrar AsyncStorage:', error);
-        }
-    };
+
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>Tirar Dados</Text>
+                <Text style={styles.title}>{t('appName')}</Text>
             </View>
-            <View style={styles.dicesContainer}>
+            <View style={styles.dicesContainer} >
                 {randomNumbers.map((number, index) => (
                     <Dice key={index} value={number} isRolling={isRolling} animationDuration={animationDuration} />
                 ))}
             </View>
             <View style={styles.optionsContainer}>
-                <Button title="Tirar Dados" onPress={ClickRollDice} />
-                <Button title="Borrrar" onPress={ClearStorage} />
+                <Button title={t('ScreenRollDice.buttonRollDices')} onPress={ClickRollDice} />
+                <Button title={t('ScreenRollDice.buttonRemoveAsync')} onPress={ClearAsyncStorage} />
                 <View style={styles.controls}>
-                    <Button title="Quitar Dado" disabled={lastRollNumber <= 1} onPress={ClickDecreaseDiceNumber} />
-                    <Button title="Agregar Dado" disabled={lastRollNumber >= 16} onPress={ClickIncreaseDiceNumber} />
+                    <Button title="+" disabled={lastRollNumber <= 1} onPress={ClickDecreaseDiceNumber} />
+                    <Button title="-" disabled={lastRollNumber >= 16} onPress={ClickIncreaseDiceNumber} />
+                    <Button title="en" onPress={()=>SetLanguageWithStorage('en')} />
+                    <Button title="es" onPress={()=>SetLanguageWithStorage('es')}  />
                 </View>
             </View>
         </View>
@@ -87,15 +86,17 @@ const styles = StyleSheet.create({
     },
     dicesContainer: {
         flex: 7,
-        flexDirection: 'row', 
+        flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        alignContent:'center',
-        gap:10,
-        padding:10
+        alignContent: 'center',
+        gap: 10,
+        padding: 10
     },
     optionsContainer: {
         flex: 2,
+        padding: 10,
+        width: "100%",
         backgroundColor: 'gray',
         gap: 10
     },

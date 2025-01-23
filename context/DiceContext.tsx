@@ -6,11 +6,12 @@ const defaultDiceContext = {
     diceColor: '#fff', // color predeterminado
     dotColor: '#000',  // color predeterminado
     lastRollNumber: 0, // valor por defecto
-    diceValue: 0,     // valor por defecto
+    maxDiceValue: 0,     // valor por defecto
     setDiceColor: (color: string) => { },
     setDotColor: (color: string) => { },
     setLastRollNumber: (number: number) => { },
-    setDiceValue: (value: number) => { },
+    setMaxDiceValue: (value: number) => { },
+    ClearAsyncStorage: () => { }
 };
 
 // Context
@@ -18,11 +19,12 @@ export const DiceContext = createContext<{
     diceColor: string;
     dotColor: string;
     lastRollNumber: number;
-    diceValue: number;
+    maxDiceValue: number;//max dice value
     setDiceColor: (color: string) => void;
     setDotColor: (color: string) => void;
     setLastRollNumber: (number: number) => void;
-    setDiceValue: (value: number) => void;
+    setMaxDiceValue: (value: number) => void;
+    ClearAsyncStorage: () => void;
 }>(defaultDiceContext);
 
 // Provider
@@ -30,7 +32,7 @@ export const DiceProvider = ({ children }: { children: ReactNode }) => {
     const [diceColor, setDiceColor] = useState<string>('#fff');
     const [dotColor, setDotColor] = useState<string>('#000');
     const [lastRollNumber, setLastRollNumber] = useState<number>(0);
-    const [diceValue, setDiceValue] = useState<number>(0);
+    const [maxDiceValue, setMaxDiceValue] = useState<number>(0);
 
     useEffect(() => {
         const loadStoredData = async () => {
@@ -38,13 +40,13 @@ export const DiceProvider = ({ children }: { children: ReactNode }) => {
                 const storedDiceColor = await AsyncStorage.getItem('AsyncDiceColor');
                 const storedDotColor = await AsyncStorage.getItem('AsyncDotColor');
                 const storedLastRollNumber = await AsyncStorage.getItem('AsyncLastRollNumber');
-                const storedDiceValue = await AsyncStorage.getItem('AsyncDiceValue');
+                const storedMaxDiceValue = await AsyncStorage.getItem('AsyncMaxDiceValue');
 
                 // set values or default values
                 setDiceColor(storedDiceColor ?? '#fff');
                 setDotColor(storedDotColor ?? '#000');
                 setLastRollNumber((storedLastRollNumber && storedLastRollNumber !== '0') ? Number(storedLastRollNumber) : 1);
-                setDiceValue((storedDiceValue && storedDiceValue !== '0') ? Number(storedDiceValue) : 1);
+                setMaxDiceValue((storedMaxDiceValue && storedMaxDiceValue !== '0') ? Number(storedMaxDiceValue) : 1);
             } catch (error) {
                 console.error('Error loading stored data:', error);
             }
@@ -68,7 +70,7 @@ export const DiceProvider = ({ children }: { children: ReactNode }) => {
     }, [diceColor]);
 
     useEffect(() => {
-        console.log('useEfectDot')
+        console.log('AsyncDotColor')
         const saveDataToStorage = async () => {
             try {
                 if (dotColor !== '#fff') {
@@ -82,7 +84,7 @@ export const DiceProvider = ({ children }: { children: ReactNode }) => {
     }, [dotColor]);
 
     useEffect(() => {
-        console.log('useEfectLast')
+        console.log('AsyncLastRollNumber')
         const saveDataToStorage = async () => {
             try {
                 if (lastRollNumber !== 0) {
@@ -96,29 +98,39 @@ export const DiceProvider = ({ children }: { children: ReactNode }) => {
     }, [lastRollNumber]);
 
     useEffect(() => {
-        console.log('useEfectValue')
+        console.log('AsyncMaxDiceValue')
         const saveDataToStorage = async () => {
             try {
-                if (diceValue !== 0) {
-                    await AsyncStorage.setItem('AsyncDiceValue', String(diceValue));
+                if (maxDiceValue !== 0) {
+                    await AsyncStorage.setItem('AsyncMaxDiceValue', String(maxDiceValue));
                 }
             } catch (error) {
                 console.error('Error saving data to AsyncStorage:', error);
             }
         };
         saveDataToStorage();
-    }, [diceValue]);
+    }, [maxDiceValue]);
+
+    const ClearAsyncStorage = async () => {
+        try {
+            await AsyncStorage.clear(); 
+            console.log('AsyncStorage ha sido limpiado');
+        } catch (error) {
+            console.error('Error al borrar AsyncStorage:', error);
+        }
+    };
 
     return (
         <DiceContext.Provider value={{
             diceColor,
             dotColor,
             lastRollNumber,
-            diceValue,
+            maxDiceValue,
             setDiceColor,
             setDotColor,
             setLastRollNumber,
-            setDiceValue
+            setMaxDiceValue,
+            ClearAsyncStorage
         }}>
             {children}
         </DiceContext.Provider>

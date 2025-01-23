@@ -1,0 +1,10 @@
+{
+    "appName": "Tirar Dados",
+    "ScreenRollDice": {
+        "buttonRollDices": "Tirar Dados",
+        "buttonRemoveDice": "Quitar Dado",
+        "buttonAddDice": "Agregar Dado",
+        "buttonRemoveAsync": "Borrar async"
+    },
+    "hi":""
+}

@@ -1,0 +1,10 @@
+{
+    "appName": "Roll Dices",
+    "ScreenRollDice": {
+        "buttonRollDices": "Roll Dice",
+        "buttonRemoveDice": "Remove Dice",
+        "buttonAddDice": "Add Dice",
+        "buttonRemoveAsync": "Clear async"
+    },
+    "hi":""
+}
