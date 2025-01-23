@@ -2,7 +2,7 @@
 ` npx create-expo-app dados3d --template blank-typescript`
 
 ## Dependencies
-1. Icons: `npm install --save react-native-vector-icons`
+1. Icons: `npm install --save react-native-vector-icons` `npm install --save-dev @types/react-native-vector-icons`
 2. Absolute paths:
 `
 npm install --save-dev babel-plugin-module-resolver

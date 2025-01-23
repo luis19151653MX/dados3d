@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { Dice } from '../components/common/Dice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DiceContext } from '../../context/DiceContext';
+import { View, Text, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Dice } from '../components/common/Dice';
+import { DiceContext } from '../../context/DiceContext';
 import { ConfigurationContext } from '../../context/ConfigurationContext';
 
 export default function ScreenRollDice() {
@@ -47,6 +47,10 @@ export default function ScreenRollDice() {
         <View style={styles.container}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>{t('appName')}</Text>
+                <TouchableOpacity>
+                    <MaterialIcons name="settings" size={30} />
+                </TouchableOpacity>
+                
             </View>
             <View style={styles.dicesContainer} >
                 {randomNumbers.map((number, index) => (
