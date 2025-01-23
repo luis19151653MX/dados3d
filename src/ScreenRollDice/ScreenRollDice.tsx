@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { Dice } from '../Dice';
+import { Dice } from '../components/common/Dice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DiceContext } from '../../context/DiceContext';
 
@@ -64,10 +64,6 @@ export default function ScreenRollDice() {
                     <Button title="Agregar Dado" disabled={lastRollNumber >= 16} onPress={ClickIncreaseDiceNumber} />
                 </View>
             </View>
-
-
-
-
         </View>
     );
 }
