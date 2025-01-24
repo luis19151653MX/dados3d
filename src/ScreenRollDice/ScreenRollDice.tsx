@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Dice } from '../components/common/Dice';
@@ -9,7 +9,7 @@ import { ConfigurationContext } from '../../context/ConfigurationContext';
 export default function ScreenRollDice() {
     const { t } = useTranslation();
     const { lastRollNumber, setLastRollNumber, ClearAsyncStorage } = useContext(DiceContext);
-    const { language,SetLanguageWithStorage } = useContext(ConfigurationContext);
+    const { SetLanguageWithStorage } = useContext(ConfigurationContext);
     const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
     const [isRolling, setIsRolling] = useState(false);
     const animationDuration = 1500;
