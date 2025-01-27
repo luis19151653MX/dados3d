@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, TextProps, StyleSheet } from 'react-native';
-import { useAppTheme } from '../../../hooks/useApptheme';
+import { useAppTheme } from '../../../hooks/useAppTheme';
 
 interface CustomTextProps extends TextProps {
-    // Puedes agregar más props si es necesario
+    // add more props
 }
 
 const CustomText: React.FC<CustomTextProps> = ({ style, children, ...rest }) => {
@@ -18,7 +18,7 @@ const CustomText: React.FC<CustomTextProps> = ({ style, children, ...rest }) => 
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 16, // Tamaño de texto por defecto
+        fontSize: 16,
     },
 });
 

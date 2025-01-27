@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { RootState } from "../../redux/store";
 import { setLanguage, setTheme } from "../../redux/slices/configurationSlice";
 import { clearAsyncStorage } from "../../utils/AsyncStorageUtils";
-import { useAppTheme } from "../../hooks/useApptheme";
+import { useAppTheme } from "../../hooks/useAppTheme";
 import CustomText from "../components/custom/CustomText";
 import CustomModal from "../components/custom/CustomModal";
 
@@ -19,7 +19,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ visible, onDismiss }) => 
     const { colors } = useAppTheme();
     const { t } = useTranslation();
 
-    // Acceso al estado global desde Redux
+    // redux
     const language = useSelector((state: RootState) => state.configuration.language);
     const currentTheme = useSelector((state: RootState) => state.configuration.theme);
 

@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDiceContext } from '../../context/DiceContext';
-import { useAppTheme } from '../../hooks/useApptheme';
+import { useAppTheme } from '../../hooks/useAppTheme';
 import SettingsModal from './ModalSettings';
 import { Dice } from '../components/common/Dice';
 
