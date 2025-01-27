@@ -1,27 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useDiceContext } from '../../context/DiceContext';
+import { useAppTheme } from '../../hooks/useApptheme';
+import SettingsModal from './ModalSettings';
 import { Dice } from '../components/common/Dice';
-import { DiceContext } from '../../context/DiceContext';
-import { ConfigurationContext } from '../../context/ConfigurationContext';
+
 
 export default function ScreenRollDice() {
     const { t } = useTranslation();
-    const { lastRollNumber, setLastRollNumber, ClearAsyncStorage } = useContext(DiceContext);
-    const { SetLanguageWithStorage } = useContext(ConfigurationContext);
+    const { colors } = useAppTheme(); 
+    const { lastRollNumber, setLastRollNumber } = useDiceContext();
     const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
     const [isRolling, setIsRolling] = useState(false);
     const animationDuration = 1500;
+    const [settingsModalVisible,setSettingsModalVisible]=useState(true);
+
+    const handleOpenModal = () => setSettingsModalVisible(true);
+    const handleCloseModal = () => setSettingsModalVisible(false);
 
     useEffect(() => {
         ClickRollDice();
-    }, [lastRollNumber])
-
+    }, [lastRollNumber]);
 
     const ClickRollDice = () => {
         setIsRolling(true);
-        let numbers: number[] = [];
+        const numbers: number[] = [];
         for (let i = 0; i < lastRollNumber; i++) {
             numbers.push(Math.floor(Math.random() * 6) + 1);
         }
@@ -35,78 +40,77 @@ export default function ScreenRollDice() {
         if (lastRollNumber > 1) {
             setLastRollNumber(lastRollNumber - 1);
         }
-    }
+    };
+
     const ClickIncreaseDiceNumber = () => {
         if (lastRollNumber < 16) {
             setLastRollNumber(lastRollNumber + 1);
         }
-    }
+    };
 
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingVertical: '10%',
+            backgroundColor:colors.background
+        },
+        titleContainer: {
+            flex: 2,
+            minWidth: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        title: {
+            fontSize: 30,
+            marginBottom: 20,
+            color:colors.text
+        },
+        dicesContainer: {
+            flex: 7,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignContent: 'center',
+            gap: 10,
+            padding: 10,
+        },
+        optionsContainer: {
+            flex: 2,
+            padding: 10,
+            width: '100%',
+            backgroundColor: 'gray',
+            gap: 10,
+        },
+        controls: {
+            flexDirection: 'row',
+            width: '100%',
+        },
+    });
 
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>{t('appName')}</Text>
-                <TouchableOpacity>
-                    <MaterialIcons name="settings" size={30} />
+                <TouchableOpacity onPress={handleOpenModal}>
+                    <MaterialIcons name="settings" size={30} color={colors.primary} />
                 </TouchableOpacity>
-                
             </View>
-            <View style={styles.dicesContainer} >
+            <View style={styles.dicesContainer}>
                 {randomNumbers.map((number, index) => (
                     <Dice key={index} value={number} isRolling={isRolling} animationDuration={animationDuration} />
                 ))}
             </View>
             <View style={styles.optionsContainer}>
                 <Button title={t('ScreenRollDice.buttonRollDices')} onPress={ClickRollDice} />
-                <Button title={t('ScreenRollDice.buttonRemoveAsync')} onPress={ClearAsyncStorage} />
                 <View style={styles.controls}>
-                    <Button title="+" disabled={lastRollNumber <= 1} onPress={ClickDecreaseDiceNumber} />
-                    <Button title="-" disabled={lastRollNumber >= 16} onPress={ClickIncreaseDiceNumber} />
-                    <Button title="en" onPress={()=>SetLanguageWithStorage('en')} />
-                    <Button title="es" onPress={()=>SetLanguageWithStorage('es')}  />
+                    <Button title="-" disabled={lastRollNumber <= 1} onPress={ClickDecreaseDiceNumber} />
+                    <Button title="+" disabled={lastRollNumber >= 16} onPress={ClickIncreaseDiceNumber} />
                 </View>
             </View>
+            <SettingsModal visible={settingsModalVisible} onDismiss={handleCloseModal}/>
         </View>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: '10%',
-    },
-    titleContainer: {
-        flex: 2,
-        minWidth: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    title: {
-        fontSize: 30,
-        marginBottom: 20,
-    },
-    dicesContainer: {
-        flex: 7,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        alignContent: 'center',
-        gap: 10,
-        padding: 10
-    },
-    optionsContainer: {
-        flex: 2,
-        padding: 10,
-        width: "100%",
-        backgroundColor: 'gray',
-        gap: 10
-    },
-    controls: {
-        display: 'flex',
-        flexDirection: 'row',
-        width: '100%',
-    },
-});

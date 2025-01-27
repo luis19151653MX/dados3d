@@ -6,5 +6,8 @@
         "buttonAddDice": "Add Dice",
         "buttonRemoveAsync": "Clear async"
     },
+    "ScreenSettings":{
+        "title":"Settings"
+    },
     "hi":""
 }

@@ -10,3 +10,5 @@ npm install --save-dev babel-plugin-module-resolver
 3. Animations: `npx expo install react-native-reanimated`
 4. Async storage: `npm install @react-native-async-storage/async-storage`
 5. Language managment: `npm install i18next react-i18next i18next-http-backend i18next-browser-languagedetector`
+6. UI library: `npm install react-native-paper  npm install react-native-safe-area-context` 
+7. application state: `npm install @reduxjs/toolkit react-redux`

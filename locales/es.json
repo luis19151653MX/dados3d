@@ -6,5 +6,8 @@
         "buttonAddDice": "Agregar Dado",
         "buttonRemoveAsync": "Borrar async"
     },
+    "ScreenSettings":{
+        "title":"Ajustes"
+    },
     "hi":""
 }

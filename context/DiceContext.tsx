@@ -136,3 +136,11 @@ export const DiceProvider = ({ children }: { children: ReactNode }) => {
         </DiceContext.Provider>
     );
 };
+
+export const useDiceContext = () => {
+    const context = useContext(DiceContext);
+    if (!context) {
+        throw new Error('useDiceContext debe ser usado dentro de un DiceProvider');
+    }
+    return context;
+};
