@@ -9,8 +9,10 @@ export const lightTheme = {
     primary: '#6200ee',  // Puedes personalizarlo
     background: '#ffffff',
     text: '#000000',
-    modal: '#fff'
+    modal: '#fff',
+    disabled:'gray'
   },
+  iconSize:20
 };
 
 export const darkTheme = {
@@ -20,8 +22,10 @@ export const darkTheme = {
     primary: '#bb86fc',  // Personaliza según tus necesidades
     background: '#121212',
     text: '#ffffff',
-    modal: '#171746'
+    modal: '#171746',
+    disabled:'gray'
   },
+  iconSize:20
 };
 
 export type AppTheme = typeof lightTheme;
