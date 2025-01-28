@@ -7,7 +7,11 @@
         "buttonRemoveAsync": "Borrar async"
     },
     "ScreenSettings":{
-        "title":"Ajustes"
+        "title":"Ajustes",
+        "labelLanguage":"Idioma",
+        "labelDeleteData":"Datos",
+        "labelTheme":"Modo",
+        "buttonDeleteData":"Borrar"
     },
-    "hi":""
+    "closeButton":"Cerrar"
 }

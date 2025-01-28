@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, View, StyleSheet, ModalProps } from 'react-native';
-import { Portal, useTheme } from 'react-native-paper';
+import { Portal } from 'react-native-paper';
+import { useAppTheme } from '../../../hooks/useAppTheme';
 
 interface CustomModalProps extends ModalProps {
   modalBackgroundStyle?: object; // Estilo para el fondo del modal
@@ -17,7 +18,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
   animation='fade',
   ...rest
 }) => {
-    const {colors}=useTheme();
+    const {colors}=useAppTheme();
   return (
     <Portal>
       <Modal
@@ -42,10 +43,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semi-transparente
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
   },
   modalContent: {
-    backgroundColor: '#fff', // Fondo del modal
     padding: 20,
     borderRadius: 10,
     width: '80%',
